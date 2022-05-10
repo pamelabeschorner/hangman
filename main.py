@@ -1,15 +1,19 @@
 from random import choice
 
 lista = ["Amendoim", "Banheiro", "Caatinga", "Casa", "Cachorro", "Campeonato", "Catapora", "Empenhado", "Esparadrapo", "Forca", "Magenta", "Menta", "Moeda", "Palavra", "Pneumonia"]
-palavra = choice(lista).lower()
 limite_de_erros = 6
-# jogar_de_novo = "sim"
-letras_escolhidas = []
-#resposta = input("digite uma letra: ")
-numero_de_erros = 0
-chegou_no_fim_da_partida = False
 chegou_no_fim_do_jogo = False
+palavra = None
+numero_de_erros = None
+chegou_no_fim_da_partida = None
+letras_escolhidas = None
 
+def resetar_partida():
+    global palavra, numero_de_erros, chegou_no_fim_da_partida, letras_escolhidas
+    palavra = choice(lista).lower()
+    numero_de_erros = 0
+    chegou_no_fim_da_partida = False
+    letras_escolhidas = []
 
 def chegouNoFimPorSucesso():
     sucesso = True
@@ -129,6 +133,7 @@ def imprimirResultadoFinal():
 
 
 while not chegou_no_fim_do_jogo:
+    resetar_partida()
     while not chegou_no_fim_da_partida:
         imprimirForca()
         imprimirPalavra()
@@ -142,10 +147,13 @@ while not chegou_no_fim_do_jogo:
             chegou_no_fim_da_partida = chegouNoFimPorSucesso()
         else:
             chegou_no_fim_da_partida = chegouNoFimPorFalha()
-
-        #imprimirPalavra()
-        #imprimirNumeroDeTentativas()
     imprimirResultadoFinal()
+    jogar_novamente = input("Você gostaria de jogar novamente? ")
+    if jogar_novamente == "sim":
+        chegou_no_fim_do_jogo = False
+    else:
+        chegou_no_fim_do_jogo = True
+
 
 
     # if letra_escolhida in correct_word:
