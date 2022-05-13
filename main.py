@@ -1,5 +1,7 @@
 from random import choice
+import os
 
+alfabeto = "abcdefghijklmnopqrstuvxwyz"
 lista = ["Amendoim", "Banheiro", "Caatinga", "Casa", "Cachorro", "Campeonato", "Catapora", "Empenhado", "Esparadrapo", "Forca", "Magenta", "Menta", "Moeda", "Palavra", "Pneumonia"]
 limite_de_erros = 6
 chegou_no_fim_do_jogo = False
@@ -35,7 +37,7 @@ def imprimirNumeroDeTentativas():
     if restante > 1:
         print("\nVocê tem " + str(restante) + " chances.\n")
     else:
-        print("\nSua última chance, use com sabedoria: ")
+        print("\nSua última chance, use com sabedoria: \n")
 
 def imprimirForca():
     global numero_de_erros
@@ -131,33 +133,37 @@ def imprimirResultadoFinal():
         print("\nVocê perdeu! Mais sorte na próxima." + "\nA palavra correta era " + '\033[1m'  + palavra + '\033[1m')
     #print("resultado final")
 
+def cls():
+    os.system('clear')
+
 
 while not chegou_no_fim_do_jogo:
     resetar_partida()
+    cls()
     while not chegou_no_fim_da_partida:
         imprimirForca()
         imprimirPalavra()
         imprimirListaDeLetrasEscolhidas()
         imprimirNumeroDeTentativas()
         letra_escolhida = input("Digite uma letra ou 'SAIR' para sair do jogo: ").lower()
-        letras_escolhidas.append(letra_escolhida)
+        cls()
         if letra_escolhida == "sair":
             break
+        elif letra_escolhida in letras_escolhidas:
+            print("\nEssa letra ja foi escolhida.")
+        elif len(letra_escolhida) != 1:
+            print("\nDigite apenas UMA letra por tentativa.")
+        elif letra_escolhida not in alfabeto:
+            print("\nIsso não é uma letra.")
         elif letra_escolhida in palavra:
+            letras_escolhidas.append(letra_escolhida)
             chegou_no_fim_da_partida = chegouNoFimPorSucesso()
         else:
+            letras_escolhidas.append(letra_escolhida)
             chegou_no_fim_da_partida = chegouNoFimPorFalha()
     imprimirResultadoFinal()
-    jogar_novamente = input("Você gostaria de jogar novamente? ")
+    jogar_novamente = input("\nVocê gostaria de jogar novamente? ")
     if jogar_novamente == "sim":
         chegou_no_fim_do_jogo = False
     else:
         chegou_no_fim_do_jogo = True
-
-
-
-    # if letra_escolhida in correct_word:
-    #     pos = palavra.find(letra)
-    #         for i in range(pos, len(palavra)):
-    #                 if letra == palavra[i]:
-    #                     riscos[i] = letra
